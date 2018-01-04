@@ -3,8 +3,9 @@
  */
 
 /**
+ * A simple class that runs various test cases using SuuKotoba
  * @author Joseph
- *
+ * @version 1.0
  */
 public class SuuKotobaTest {
 
@@ -22,22 +23,26 @@ public class SuuKotobaTest {
 	final static String jyuuTestStr2 = "1";
 	
 	/**
-	 * @param args
+	 * Runs our test cases.
+	 * @param	args	Not used
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub		
+	public static void main(String[] args) {	
 		
 		assert SuuKotoba.numToWord(chouTestStr).equals("二兆四千八百六十九億五千四百三十七万一千八百九十一");
+		
 		// icchou (not just chou)
 		assert SuuKotoba.numToWord(chouTest2Str).equals("一兆");
 		
 		assert SuuKotoba.numToWord(okuTestStr).equals("四千八百六十九億");
+		
 		// ichioku (not just oku)
 		assert SuuKotoba.numToWord(okuTest2Str).equals("一億");
 		
 		assert SuuKotoba.numToWord(manTestStr).equals("五千四百三十七万");
+		
 		// ichiman (not just man)
 		assert SuuKotoba.numToWord(manTest2Str).equals("一万");
+		
 		// TODO: senman and issenman are both acceptable
 		assert SuuKotoba.numToWord(manTest3Str).equals("一千万");
 		
