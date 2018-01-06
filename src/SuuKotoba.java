@@ -82,27 +82,35 @@ public class SuuKotoba {
 		
 		// Walk through the place values from largest to smallest
 		for (Map.Entry<BigInteger, String> entry : placeValues.entrySet()) {
-			Object[] results = getUnitStr(entry.getKey(), entry.getValue(), counter);
+			String pvKanji = entry.getValue();
+			Object[] results = getUnitStr(entry.getKey(), pvKanji, counter);
 			
-			// There are some irregularities with the 1000's place in terms of written representation
-			// Namely, "sen" is used with numbers 1000-1999, and issen with all higher numbers 
-			// containing 1 in the 1000's place of the unit for that place-value.
+			// There are some irregularities with the 10's, 100's, and 1000's place in terms of written representation
+			// Namely, "一十"　and "一百" are invalid. In addition, "sen" is used with numbers 1000-1999, 
+			// and issen with all higher numbers containing 1 in the 1000's place of the unit for that place-value.
 			// E.G., 10000000 --> 1000 * 10000 (man) --> 一千万 (issenman)
 			
-			if (entry.getValue().equals("千") && !isRecursive) {
-				String senVal = (String) results[0];
-				if (senVal.startsWith("一千")) {
+			String strVal = (String) results[0];
+			
+			if (pvKanji.equals("十") || pvKanji.equals("百")) {
+				if (strVal.startsWith("一")) {
+					strVal = pvKanji;
+				}
+			}
+			
+			if (pvKanji.equals("千") && !isRecursive) {
+				if (strVal.startsWith("一千")) {
 					
 					// If numStr is empty at this point, it means that num >= 9999 
 					// and therefore 一 shouldn't be placed before 千
 					if (numStr.isEmpty()) {
-						results[0] = senVal.substring(1); 
+						strVal = strVal.substring(1); 
 					}
 					
 				}
 			}
 			
-			numStr += (String) results[0];
+			numStr += strVal;
 			counter = (BigInteger) results[1];
 		}
 		
@@ -130,7 +138,7 @@ public class SuuKotoba {
 		Object[] results;
 		
 		if  (numUnit.intValue() > 9) {
-			// If numUnit > 9 then that means we can use recursion to get the written form for this unit
+			// If numUnit > 10 then that means we can use recursion to get the written form for this unit
 	    	unitStr = numToWord(numUnit.toString(), true) + pvKanji;
 	    } else {
 	    	// Otherwise, we can simply use the 1-9 kanji representations before the place-value
