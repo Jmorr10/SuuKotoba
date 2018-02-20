@@ -103,6 +103,7 @@ public class SuuKotobaTest {
 		for (int i = 0; i < bigNums.length; i++) {
 			String result = SuuKotoba.numToWord(bigNums[i]);
 			assert result.equals(bigNumsAns[i]) : "Expected: " + bigNumsAns[i] + " | Got: " + result; 
+			System.out.println(bigNums[i].toString() + " = " + bigNumsAns[i].toString());
 		}
 		
 		System.out.println("All tests passed!");
